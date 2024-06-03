@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  rabbitmq-docker-container:
+    image: rabbitmq-service
+    container_name: rabbitmq-docker-container
+    ports:
+      - 5672:6572
+    volumes:
+      - ./:/app
+    networks:
+      - backend
+networks:
+  backend:
+    driver: bridge
