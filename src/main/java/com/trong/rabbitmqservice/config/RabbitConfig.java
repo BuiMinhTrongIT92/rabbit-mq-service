@@ -20,14 +20,12 @@ public class RabbitConfig {
     private String productQueueName;
     @Value("${rabbitmq.queue.payment-queue}")
     private String paymentQueueName;
-
     @Bean
     public FanoutExchange fanoutExchange() {
         return ExchangeBuilder.fanoutExchange(fanoutExchange)
                 .durable(true)
                 .build();
     }
-
     @Bean
     public Queue productQueue() {
         return new Queue(productQueueName, true);
@@ -39,9 +37,14 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Binding productBinding(Queue productQueue) {
+    public Binding productBinding(FanoutExchange fanoutExchange, Queue productQueue) {
         return BindingBuilder.bind(productQueue)
-                .to(fanoutExchange());
+                .to(fanoutExchange);
+    }
+    @Bean
+    public Binding paymentBinding(FanoutExchange fanoutExchange, Queue paymentQueue) {
+        return BindingBuilder.bind(paymentQueue)
+                .to(fanoutExchange);
     }
 
     @Bean

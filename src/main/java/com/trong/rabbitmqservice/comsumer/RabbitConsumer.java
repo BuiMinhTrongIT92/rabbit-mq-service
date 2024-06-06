@@ -11,4 +11,9 @@ public class RabbitConsumer {
     public void productConsumer(String message) {
         log.info("Receive message from Product: " + message);
     }
+
+    @RabbitListener(queues = {"${rabbitmq.queue.payment-queue}"})
+    public void paymentConsumer(String message) {
+        log.info("Receive message from Payment: " + message);
+    }
 }
